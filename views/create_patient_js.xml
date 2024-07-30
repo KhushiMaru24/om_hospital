@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="create_patient_action" model="ir.actions.client">
+    	<field name="name">Create patient</field>
+    	<field name="tag">create_patient_tg</field>
+	</record>
+
+
+	<menuitem name="Trial" id="create_pati-_menu"
+          	sequence="100" action="create_patient_action"
+			  parent="appointment_root"/>
+
+	<template id="call_patient_js">
+		<owl-component name="om_hospital.create_patient_tg"/>
+	</template>
+</odoo>
+

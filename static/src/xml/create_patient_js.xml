@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="createPatient" xml:space="preserve">
+    <t t-name="om_hospital.create_patient_tg">
+        <div class="create_patient_dialog">
+            <div class="o_dialog_header">
+                <h2>Create Patient</h2>
+            </div>
+            <div class="o_dialog_content">
+                <div>
+                    <label for="patient_name">Name:</label>
+                    <input type="text" id="patient_name" t-model="state.name" class="form-control"/>
+                </div>
+                <div>
+                    <label for="patient_date_of_birth">Date of Birth:</label>
+                    <input type="date" id="patient_date_of_birth" t-model="state.date_of_birth" class="form-control"/>
+                </div>
+                <div>
+                    <label for="patient_age">Age:</label>
+                    <input type="number" id="patient_age" t-model="state.age" class="form-control"/>
+                </div>
+                <div>
+                    <label for="patient_gender">Gender:</label>
+                    <select id="patient_gender" t-model="state.gender" class="form-control">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+            </div>
+            <div class="o_dialog_footer dialog_buttons">
+                <button type="button" class="btn btn-primary" t-on-click="save">Save</button>
+                <button type="button" class="btn btn-secondary" t-on-click="cancel">Cancel</button>
+            </div>
+        </div>
+    </t>
+</templates>

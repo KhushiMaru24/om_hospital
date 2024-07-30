@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- views/hospital_api_views.xml -->
+<odoo>
+    <data>
+
+        <record id="menu_app_root" model="website.menu">
+            <field name="name">Patient</field>
+            <field name="url">/triall</field>
+            <field name="parent_id" search="[('parent_id', '=', False), ('website_id', '=', 1)]"/>
+            <field name="sequence" type="int">20</field>
+        </record>
+
+        <record id="view_hospital_api_patients" model="ir.ui.view">
+            <field name="name">hospital.api.patients</field>
+            <field name="model">http.controller</field>
+            <field name="type">http</field>
+            <field name="arch" type="xml">
+                <data>
+                    <!-- Map the route to the controller method -->
+                    <route string="/api/patients" name="hospital_api_patients" methods="GET">
+                        <template>om_hospital.sale_order</template>
+                        <controller>om_hospital.HospitalApiController.get_patients</controller>
+                    </route>
+                </data>
+            </field>
+        </record>
+
+<!--        <record id="action_website_hospital" model="ir.actions.client">-->
+<!--            <field name="name">Hospital</field>-->
+<!--            <field name="tag">website</field>-->
+<!--            <field name="target">main</field>-->
+<!--            <field name="context">{}</field>-->
+<!--            <field name="view_mode">form</field>-->
+<!--            <field name="view_id" ref="view_hospital_api_patients"/>-->
+<!--            <field name="res_model">om_hospital.hospital_patient</field>-->
+<!--        </record>-->
+
+<!--        <record id="menu_website_hospital" model="website.menu">-->
+<!--            <field name="name">Hospital</field>-->
+<!--            <field name="parent_id" eval="False"/>-->
+<!--            <field name="sequence" eval="10"/>-->
+<!--            <field name="action" ref="action_website_hospital"/>-->
+<!--        </record>-->
+
+
+
+
+    </data>
+</odoo>
+
+
+

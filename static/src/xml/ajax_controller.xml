@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+    <t t-name="om_hospital.dynamic_snippet_custom">
+        <div class="w3-green w3-hover-shadow w3-right">
+            <div>
+                <section>
+                    <div class="list-group" id="list-tab" role="tablist">
+                        <div class="w3-card-44 w3-dark-grey">
+                            <t t-foreach="res" t-as="prod" t-key="prod.id">
+                                <a class="list-group-item list-group-item-action active" id="list-home-list"
+                                   data-bs-toggle="list" href="#list-home" role="tab" aria-controls="list-home">
+                                    <t t-esc="prod.name"/>: <t t-esc="prod.list_price"/>
+                                </a>
+                            </t>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </t>
+</templates>

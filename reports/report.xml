@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="report_patient">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+                    <div class="page">
+                        <h2><span t-field="o.name"/></h2>
+                        <h4>Age: <span t-field="o.age"/></h4>
+                        <h4>Gender: <span t-field="o.gender"/></h4>
+                        <h4>Date of Birth: <span t-field="o.date_of_birth"/></h4>
+                    </div>
+                    <br></br>
+                    <div>
+                        <img t-att-src="'/report/barcode/QR/' + o.name" style="width:150px;height:75px"/>
+                        <span t-field="o.name" t-options="{'widget': 'barcode', 'width':400, 'height':100}" />
+                    </div>
+
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_patient_card" model="ir.actions.report">
+        <field name="name">Patient Card</field>
+        <field name="model">hospital.patient</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">om_hospital.report_patient</field>
+        <field name="report_file">om_hospital.report_patient</field>
+        <field name="binding_model_id" ref="om_hospital.model_hospital_patient"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="action_report_patient_card_xlsx" model="ir.actions.report">
+        <field name="name">Patient Card Excel</field>
+        <field name="model">hospital.patient</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">om_hospital.report_patient_xlsx</field>
+        <field name="report_file">om_hospital.report_patient_xlsx</field>
+        <field name="binding_model_id" ref="om_hospital.model_hospital_patient"/>
+        <field name="binding_type">report</field>
+    </record>
+
+
+</odoo>

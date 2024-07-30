@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="create_dashboard_action" model="ir.actions.client">
+    	<field name="name">Create Dashboard</field>
+    	<field name="tag">create_dashboard_tag</field>
+	</record>
+
+
+	<!--	Menu Item to show the dashboard menu in the module-->
+	<menuitem name="Dashboard" id="create_dashboard-_menu"
+          	sequence="100" action="create_dashboard_action"
+    parent="hospital_root"/>
+
+</odoo>

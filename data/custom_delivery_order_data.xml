@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+        <record id="action_create_delivery_order" model="ir.actions.server">
+            <field name="name">Create Delivery Order on Sale Order Confirmation</field>
+            <field name="model_id" ref="model_sale_order"/>
+            <field name="state">code</field>
+            <field name="code">action = self.env['stock.picking'].create({
+                    'picking_type_id': your_picking_type_id,  # Replace with your picking type ID
+                    'partner_id': record.partner_id.id,  # Assuming 'record' is the current sale order
+                    'location_id': your_source_location_id,  # Replace with your source location ID
+                    'location_dest_id': your_destination_location_id,  # Replace with your destination location ID
+                    'origin': record.name,  # Use sale order name as origin
+                })
+                for line in record.order_line:
+                    self.env['stock.move'].create({
+                        'name': line.name,
+                        'product_id': line.product_id.id,
+                        'product_uom_qty': line.product_uom_qty,
+                        'picking_id': action.id,
+                        'location_id': your_source_location_id,  # Replace with your source location ID
+                        'location_dest_id': your_destination_location_id,  # Replace with your destination location ID
+                    })
+                action.action_confirm()
+            </field>
+        </record>
+
+</odoo>

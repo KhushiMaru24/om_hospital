@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <templates id="template" xml:space="preserve">
+        <t t-name="om_hospital.PatientKanban.ControlPanel">
+            <div class="o_control_panel">
+                <div class="breadcrumb">
+                    <ul>
+                        <li>
+                            <span class="breadcrumb-item">
+                                <t t-esc="props.title"/>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="o_cp_buttons">
+                    <button type="button" class="btn btn-primary o-kanban-button">
+                        Add Patient
+                    </button>
+                </div>
+            </div>
+        </t>
+    </templates>
+</odoo>

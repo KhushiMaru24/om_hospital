@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+
+    <template id="sale_order_data" name="Sale Order">
+        <t t-call="web.html_container">
+               <div class="container">
+                   <h1>Sale Order</h1>
+                   <table class="table table-bordered">
+                       <thead>
+                           <tr>
+                               <th>Number</th>
+                               <th>Customer</th>
+                               <th>Order Date</th>
+                           </tr>
+                       </thead>
+                       <tbody>
+                           <t t-foreach="docs" t-as="o">
+                               <tr>
+                                   <td>
+                                       <a t-attf-href="http://localhost:8069/web?debug=1#id={{o.id}}&amp;cids=1&amp;menu_id=181&amp;action=312&amp;model=sale.order&amp;view_type=form">
+                                            <span t-esc="o.name"/>
+                                       </a>
+                                   </td>
+                                   <td>
+                                       <t t-esc="o.partner_id.name"/>
+                                   </td>
+                                   <td>
+                                       <t t-esc="o.date_order"/>
+                                   </td>
+                               </tr>
+                           </t>
+                       </tbody>
+                   </table>
+               </div>
+        </t>
+    </template>
+
+    <record id="action_report_sale_order" model="ir.actions.report">
+        <field name="name">Sale Order</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">om_hospital.sale_order_data</field>
+        <field name="report_file">om_hospital.sale_order_data</field>
+        <field name="binding_model_id" ref="om_hospital.model_sale_order"/>
+        <field name="binding_type">report</field>
+    </record>
+
+
+</odoo>

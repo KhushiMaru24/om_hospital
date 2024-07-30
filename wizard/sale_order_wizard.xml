@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!--    <record id="view_sale_order_wizard_form" model="ir.ui.view">-->
+<!--        <field name="name">sale.order.wizard.form</field>-->
+<!--        <field name="model">sale.order.wizard</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form string="Add Product">-->
+<!--                <group>-->
+<!--                    <group>-->
+<!--                        <field name="product_id"-->
+<!--                            domain="[('sale_ok', '=', True)]"-->
+<!--                            context="{'default_sale_order_id': active_id, 'partner_id': active_id and active_id.partner_id, 'quantity': 1, 'pricelist': active_id and active_id.pricelist_id, 'uom': 1, 'company_id': active_id and active_id.company_id}"-->
+<!--                            required="1"-->
+<!--                            widget="many2one_barcode"/>-->
+<!--                        <field name="product_uom_qty"/>-->
+<!--                        <field name="product_uom"/>-->
+<!--                        <field name="price_unit" readonly="1"/>-->
+<!--                        <field name="tax_id" widget="many2many_tags" options="{'no_create': True}" context="{'search_view_ref': 'account.account_tax_view_search'}"/>-->
+<!--                        <field name="discount"/>-->
+<!--                        <field name="customer_lead"/>-->
+<!--                        <field name="sequence" invisible="1"/>-->
+<!--                        <field name="name" readonly="1"/>-->
+<!--                    </group>-->
+<!--                    <group>-->
+<!--                        <field name="product_packaging_qty" invisible="not product_id or not product_packaging_id" groups="product.group_stock_packaging"/>-->
+<!--                        <field name="product_packaging_id" context="{'default_product_id': product_id, 'tree_view_ref':'product.product_packaging_tree_view', 'form_view_ref':'product.product_packaging_form_view'}"-->
+<!--                               groups="product.group_stock_packaging" />-->
+<!--&lt;!&ndash;                        <field name="display_type"/>&ndash;&gt;-->
+<!--                    </group>-->
+<!--                </group>-->
+<!--                <footer>-->
+<!--                    <button string="Add" type="object" name="add_product_to_order" class="btn-primary"/>-->
+<!--                    <button string="Cancel" class="btn-secondary" special="cancel"/>-->
+<!--                </footer>-->
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
+   <record id="view_sale_order_wizard_form" model="ir.ui.view">
+        <field name="name">sale.order.wizard.form</field>
+        <field name="model">sale.order.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Add Product">
+<!--                <field name="wizard_id"/>-->
+                <field name="data" widget="section_and_note_one2many">
+                    <tree editable="bottom">
+                        <field name="product_id" string="Product"/>
+                        <field name="name" string="Description"/>
+                        <field name="product_uom_qty" string="Quantity"/>
+                        <field name="product_uom" string="UOM"/>
+                        <field name="product_packaging_qty" invisible="not product_id or not product_packaging_id" groups="product.group_stock_packaging" string="Packaging Quantity"/>
+                        <field name="product_packaging_id" groups="product.group_stock_packaging" string="Packaging"/>
+                        <field name="price_unit" string="Unit Price"/>
+                        <field name="tax_id" string="Taxes" widget="many2many_tags" optional="show"/>
+                        <field name="discount" string="Disc.%" groups="product.group_discount_per_so_line" optional="show"/>
+                    </tree>
+                    <form>
+                        <group>
+                            <field name="product_id"/>
+                            <field name="name"/>
+                            <field name="product_uom_qty"/>
+                            <field name="product_uom"/>
+                            <field name="price_unit"/>
+                            <field name="tax_id"/>
+                            <field name="discount"/>
+                            <field name="product_packaging_qty"/>
+                            <field name="product_packaging_id"/>
+                        </group>
+                    </form>
+                </field>
+                <footer>
+                    <button string="Add" type="object" name="add_product_to_order" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+   </record>
+
+
+    <record id="action_sale_order_wizard" model="ir.actions.act_window">
+        <field name="name">Add Product</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_sale_order_wizard_form"/>
+        <field name="target">new</field>
+        <field name="context">{'default_sale_order_id': active_id}</field>
+    </record>
+
+</odoo>

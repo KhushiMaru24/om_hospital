@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record model="ir.actions.server" id="action_mark_as_done">
+      <field name="name">Mark AS Done</field>
+      <field name="model_id" ref="model_hospital_appointment"/>
+      <field name="binding_model_id" ref="model_hospital_appointment"/>
+      <field name="binding_view_types">list</field>
+      <field name="state">code</field>
+      <field name="code">
+        for record in records:
+          if record.state == 'in_consultation':
+              record.action_done()
+      </field>
+    </record>
+
+<!--    <record id="sale_order_inherited" model="ir.ui.view">-->
+<!--        <field name="name">sale.order.inherited</field>-->
+<!--        <field name="model">sale.order</field>-->
+<!--        <field name="inherit_id" ref="sale.view_order_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//field[@name='l10n_in_gst_treatment']" position="after">-->
+<!--                <field name="appo"/>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+
+    <record id="view_appointment_activity" model="ir.ui.view">
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <form string="Hospital Appointment">
+                <sheet>
+                    <!-- Include fields and widgets related to activities -->
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_appointment_calendar" model="ir.ui.view">
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <calendar string="Appointment" date_start="appointment_date" color="state">
+                <field name="patient_id"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_appointment_tree" model="ir.ui.view">
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="state == 'done'" decoration-info="state == 'draft'"
+                  decoration-danger="state=='cancel'" decoration-warning="state=='in_consultation'" sample="1" multi_edit="1">
+                <field name="patient_id"/>
+                <field name="ref" optional="hide"/>
+                <field name="gender" optional="hide"/>
+<!--                <field name="appointment_time" optional="show"/>-->
+                <field name="appointment_date"/>
+                <field name="activity_ids" widget="list_activity"/>
+                <field name="state"
+                       decoration-success="state == 'done'" decoration-info="state == 'draft'"
+                       decoration-danger="state=='cancel'" decoration-warning="state=='in_consultation'" widget="badge"/>
+                <field name="progress" widget="progressbar"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_appointment_form" model="ir.ui.view">
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_in_consultation" string="In Consultation" class="oe_highlight" type="object" invisible="state != 'draft'" />
+                    <button name="action_done" string="Done" type="object" data-hotkey="v" class="oe_highlight" invisible="state == 'cancel' or app or state == 'draft'"/>
+                    <button name="action_cancel" string="Cancel" type="object" class="oe_highlight" invisible="state == 'done'"/>
+                    <field name="state" widget="statusbar"  statusbar_visible="draft,in_consultation,done"/>
+                    <button name="action_share_whatsapp" string="Sharing In WhatsApp" icon="fa-whatsapp" type="object" data-hotkey="e" class="oe_highlight"/>
+                    <button name="action_send_email" string="Send Email" type="object" data-hotkey="h" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="sale_order_open" icon="fa-star">
+                            <field string="Sale Order" name="sale_order_count" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <div>
+                        <h4>
+                            <field name="priority" widget="priority" />
+                        </h4>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="reference"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="patient_id"/>
+                            <field name="ref"/>
+                            <field name="gender"/>
+                            <field name="app" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="hide_sales_price" groups="base.group_no_one"/>
+<!--                            <field name="appointment_time" string="Appointment Time"/>-->
+                            <field name="appointment_date" default_focus="1"/>
+                            <button name="action_test" string="Object Button" type="object" groups="base.group_no_one"
+                                    help="By clicking, a message show in log" class="oe_highlight"/>
+                            <button name="%(om_hospital.action_hospitals)d" string="Action Button" type="action" groups="base.group_no_one"
+                                    help="By clicking, you wiil be redirected to patient record." confirm="Are you sure? " class="oe_highlight"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Progress" name="progress">
+                            <field name="progress" widget="progressbar"/>
+                        </page>
+                        <page string="Prescription" name="prescription">
+                            <group>
+                                <field name="prescription" placeholder="enter your prescription"
+                                       options="{'collaborative': true,'resizable': true, 'codeview':true}"/>
+
+                            </group>
+
+                        </page>
+                        <page string="Pharmacy" name="pharmacy">
+                            <group>
+                                <field name="pharmacy_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="product"/>
+                                        <field name="prices"/>
+                                        <field name="qty"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="product"/>
+                                            <field name="prices"/>
+                                            <field name="qty"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_appointment_search" model="ir.ui.view">
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <search>
+            </search>
+        </field>
+    </record>
+    <record id="action_appointment" model="ir.actions.act_window">
+        <field name="name">Appointment</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hospital.appointment</field>
+        <field name="view_mode">tree,form,calendar,activity</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                                       (0, 0, {'view_mode': 'tree', 'view_id': ref('view_appointment_tree')}),
+                                       (0, 0, {'view_mode': 'form', 'view_id': ref('view_appointment_form')}),
+                                       (0, 0, {'view_mode': 'activity', 'view_id': ref('view_appointment_activity')})]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first patient!
+            </p>
+        </field>
+    </record>
+    
+    <menuitem id="appointment_root"
+              name="Appointment"
+              parent="hospital_root"
+              sequence="0"/>
+    <menuitem id="appointment_data"
+              name="Appointments"
+              action="action_appointment"
+              parent="appointment_root"
+              sequence="10"/>
+    <menuitem id="create_appointment"
+              name="Create Appointment"
+              action="action_create_appointment"
+              parent="appointment_root"
+              sequence="20"/>
+    
+</odoo>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="menu_favourite_patient_root" model="website.menu">
+        <field name="name">Patient</field>
+        <field name="url">/patients</field>
+        <field name="parent_id" search="[('parent_id', '=', False), ('website_id', '=', 1)]"/>
+        <field name="sequence" type="int">10</field>
+    </record>
+
+    <template id="patient_list" name="Patient List">
+        <t t-call="website.layout">
+            <div class="container">
+                <h1>Patients</h1>
+                <ul id="patient_list">
+                    <t t-foreach="patients" t-as="patient">
+                        <li>
+                            <span t-esc="patient.name"/>
+                            <button type="button" class="btn btn-primary add-favorite" t-att-data-id="patient.id">Add to Favorite</button>
+                        </li>
+                    </t>
+                </ul>
+            </div>
+        </t>
+    </template>
+</odoo>

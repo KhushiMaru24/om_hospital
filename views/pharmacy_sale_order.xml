@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+<!--    <record id="pharmacy_sale_order_form" model="ir.ui.view">-->
+<!--        <field name="model">pharmacy.sale.order.data</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <tree>-->
+
+<!--                    <field name="patient_id"/>-->
+<!--                    <field name="pharmacy_line_ids">-->
+<!--                        <tree>-->
+<!--                            <field name="product_id"/>-->
+<!--                            <field name="qty"/>-->
+<!--                            <field name="price"/>-->
+<!--                            <field name="price_subtotal"/>-->
+<!--                        </tree>-->
+<!--                    </field>-->
+<!--            -->
+<!--            </tree>-->
+<!--        </field>-->
+<!--    </record>-->
+
+   <record id="pharmacy_sale_order_form" model="ir.ui.view">
+        <field name="model">pharmacy.sale.order.data</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+<!--                        <field name="patient_id"/>-->
+                        <field name="appointment_id"/>
+                    </group>
+                    <notebook>
+                         <page string="Pharmacy" name="pharmacy">
+                             <field name="pharmacy_line_ids">
+                                 <tree editable="bottom">
+                                     <field name="product"/>
+                                     <field name="prices"/>
+                                     <field name="qty"/>
+                                     <field name="currency_id"/>
+                                     <field name="price_subtotal"/>
+                                 </tree>
+                             </field>
+                        </page>
+                    </notebook>
+<!--                    <field name="total_price" string="Total Price"/>-->
+<!--                    <br></br>-->
+<!--                    <button name="action_order" string="Order Placed" type="object" class="oe_highlight"/>-->
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pharmacy_sale_order" model="ir.actions.act_window">
+        <field name="name">Pharmacy</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pharmacy.sale.order.data</field>
+        <field name="view_mode">form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                                       (0, 0, {'view_mode': 'form', 'view_id': ref('pharmacy_sale_order_form')})]"/>
+    </record>
+
+
+
+</odoo>

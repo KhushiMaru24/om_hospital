@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<template id="data_name_page_template" name="Data">
+        <t t-call="website.layout">
+            <div class="oe_structure">
+                <div class="container">
+                    <h3>Patient Data</h3>
+                    <div class="patients-container">
+                        <!-- Patients data will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+<!--    <template id="website.homepage" name="Home">-->
+<!--        <t t-call="website.layout">-->
+<!--            <t t-set="pageName" t-value="'homepage'"/>-->
+<!--            <div id="wrap" class="oe_structure oe_empty"/>-->
+<!--        </t>-->
+<!--    </template>-->
+
+    <record id="data_name_page" model="website.page">
+            <field name="is_published">True</field>
+            <field name="url">/data_name</field>
+            <field name="view_id" ref="data_name_page_template"/>
+            <field name="track">True</field>
+        </record>
+
+
+    <record id="data_name_page_route" model="website.menu">
+            <field name="name">Data</field>
+            <field name="url">/data_name</field>
+            <field name="page_id" ref="data_name_page"/>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence" type="int">100</field>
+        </record>
+
+
+</odoo>

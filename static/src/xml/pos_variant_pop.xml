@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+
+<templates id="template" xml:space="preserve">
+    <t t-name="point_of_sale.ProductCardExtension" t-extend="point_of_sale.ProductCard">
+        <t t-jquery="div.product-information-tag" t-operation="after">
+            <div class="product-variant-tag" t-if="props.productInfo" t-on-click="handleProductVariantClick">
+                <i class="product-variant-tag-logo fa fa-tag" role="img" aria-label="Product Variant" title="Product Variant" />
+            </div>
+        </t>
+    </t>
+    <t t-name="point_of_sale.VariantInfoPopup">
+        <t t-call="point_of_sale.ProductCardExtension"/>
+        <div class="popup variant-info-popup">
+            <div class="modal-header">
+                <h4 class="modal-title">Variant Information</h4>
+                <div class="btn" t-on-click="cancel">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </div>
+            </div>
+            <main class="body modal-body overflow-auto">
+                <div class="extra mt-3 mb-4 pb-4 border-bottom text-start" t-if="productInfo.variants.length > 0">
+                        <div class="section-variants">
+                            <h3 class="section-title">Attributes</h3>
+                            <div class="section-variants-body">
+                                <t t-foreach="productInfo.variants" t-as="variant" t-key="variant.name">
+                                    <div class="d-flex flex-column align-items-start gap-2 mb-2">
+                                        <div>
+                                            <span t-esc="variant.name" class="table-name"/>:
+                                        </div>
+                                        <div class="d-flex flex-wrap gap-1">
+                                            <t t-foreach="variant.values" t-as="attribute_value" t-key="attribute_value.name">
+                                                <span class="searchable btn btn-secondary" t-on-click="() => this.searchProduct(attribute_value.search)">
+                                                    <t t-esc="attribute_value.name"/>
+                                                </span>
+                                                <t t-if="attribute_value_index lt variant.values.length - 1"> </t>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+            </main>
+        </div>
+    </t>
+</templates>

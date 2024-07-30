@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hospital_patient_admin,hospital_patient,model_hospital_patient,base.group_user,1,1,1,1
+access_hospital_doctor_admin,hospital_doctor,model_hospital_doctor,base.group_user,1,1,1,1
+access_hospital_appointment_admin,hospital_appointment,model_hospital_appointment,base.group_user,1,1,1,1
+access_pharmacy_data_admin,pharmacy_data,model_pharmacy_data,base.group_user,1,1,1,1
+access_appointment_pharmacy_lines_admin,appointment_pharmacy_lines,model_appointment_pharmacy_lines,base.group_user,1,1,1,1
+access.patient.tag_admin,patient.tag,model_patient_tag,base.group_system,1,1,1,1
+access_create_appointment_wizard_admin,create.appointment.wizard,model_create_appointment_wizard,base.group_system,1,1,1,1
+access_pharmacy_sale_order_data_admin,pharmacy_sale_order_data,model_pharmacy_sale_order_data,base.group_user,1,1,1,1
+access_hospital_patient_create_wizard_admin,hospital_patient_create_wizard,model_hospital_patient_create_wizard,base.group_system,1,1,1,1
+access_dashboard_data_admin,dashboard_data,model_dashboard_data,base.group_user,1,1,1,1
+access_sale_order_wizard_admin,sale.order.wizard,model_sale_order_wizard,base.group_system,1,1,1,1
+access_service_line_data_admin,service_line_data,model_service_line_data,base.group_system,,1,1,1,1
+access_hospital_favorite_patient_admin,hospital_favorite_patient,model_hospital_favorite_patient,base.group_system,,1,1,1,1

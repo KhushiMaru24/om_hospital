@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record model="ir.rule" id="patient_record_rule">
+        <field name="name">See only His Patient</field>
+        <field name="model_id" ref="model_hospital_patient"/>
+        <field name="domain_force">[('doctor_id.login','=', user.login)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record model="ir.rule" id="appointment_record_rule">
+        <field name="name">See only His Appointment</field>
+        <field name="model_id" ref="model_hospital_appointment"/>
+        <field name="domain_force">[('patient_id.doctor_id.login','=',user.login)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record model="ir.rule" id="dashboard_record_rule">
+        <field name="name">Dashboard Doctor Login</field>
+        <field name="model_id" ref="model_hospital_appointment"/>
+        <field name="domain_force">[('patient_id.doctor_id.login','=',user.login)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+</odoo>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="pharmacy_order_tree" model="ir.ui.view">
+        <field name="model">pharmacy.data</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="product_id"/>
+                <field name="price"/>
+            </tree>
+        </field>
+    </record>
+
+   <record id="pharmacy_order_form" model="ir.ui.view">
+        <field name="model">pharmacy.data</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="product_id"/>
+                <field name="price"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pharmacy_order" model="ir.actions.act_window">
+        <field name="name">Pharmacy</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pharmacy.data</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                                       (0, 0, {'view_mode': 'tree', 'view_id': ref('pharmacy_order_tree')}),
+                                       (0, 0, {'view_mode': 'form', 'view_id': ref('pharmacy_order_form')})]"/>
+    </record>
+
+    <menuitem id="order_root"
+              name="Pharmacy"
+              parent="hospital_root"
+              sequence="40"/>
+    <menuitem id="pharmacy_data"
+              name="Pharmacy Order"
+              action="action_pharmacy_order"
+              parent="order_root"
+              sequence="10"/>
+</odoo>

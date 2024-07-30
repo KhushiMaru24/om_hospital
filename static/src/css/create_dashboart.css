@@ -1,0 +1,41 @@
+/* CSS for Pie Chart */
+.o_dashboard {
+    padding: 20px;
+}
+
+.o_dashboard_section {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.o_dashboard_kanban {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.o_dashboard_kanban_card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 20px;
+    cursor: pointer;
+    flex: 1 1 200px;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.o_dashboard_kanban_card:hover {
+    background-color: #e9e9e9;
+}
+
+.o_dashboard_kanban_title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.o_dashboard_kanban_count {
+    font-size: 24px;
+    font-weight: bold;
+}

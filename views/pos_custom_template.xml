@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Define a template to include the custom JavaScript file -->
+        <template id="assets" name="POS Custom Assets">
+            <xpath expr="." position="inside">
+                <script type="module" src="/om_hospital/static/src/js/pos_custom.js"/>
+                <script type="module" src="/om_hospital/static/src/js/print.js"/>
+                <!-- Add a simple debug message -->
+                <t t-if="True">
+                    <span>Debug: Custom script should be included here.</span>
+                </t>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>

@@ -376,60 +376,43 @@ patch(PosStore.prototype, {
         this.db.add_products(modelProducts);
     },
     async getProductInfo(product, quantity) {
-        try {
-            const order = this.get_order();
-            const productIds = product.product_variant_ids.map(v => v.id);
-            const price = product.get_price(order.pricelist, quantity);
-            const configId = this.config.id;
+        const order = this.get_order();
+        // check back-end method `get_product_info_pos` to see what it returns
+        // We do this so it's easier to override the value returned and use it in the component template later
+        const productInfo = await this.orm.call("product.template", "get_product_info_pos", [
+            [product.id],
+            product.get_price(order.pricelist, quantity),
+            quantity,
+            this.config.id,
+        ]);
+        productInfo.optional_products = productInfo.optional_products || [];
 
-            console.log('RPC Parameters:', { productIds, price, quantity, configId });
+        const priceWithoutTax = productInfo["all_prices"]["price_without_tax"];
+        const margin = priceWithoutTax - product.standard_price;
+        const orderPriceWithoutTax = order.get_total_without_tax();
+        const orderCost = order.get_total_cost();
+        const orderMargin = orderPriceWithoutTax - orderCost;
 
-            const productInfo = await this.orm.call("product.template", "get_product_info_pos", [
-                productIds,
-                price,
-                quantity,
-                configId,
-            ]);
-
-            if (!Array.isArray(productInfo)) {
-                throw new Error('Invalid response format: expected an array');
-            }
-
-            const processedProductInfo = productInfo.map(product => {
-                const priceWithoutTax = product.price_without_tax;
-                const margin = priceWithoutTax - product.standard_price;
-                const orderPriceWithoutTax = order.get_total_without_tax();
-                const orderCost = order.get_total_cost();
-                const orderMargin = orderPriceWithoutTax - orderCost;
-
-                const costCurrency = this.env.utils.formatCurrency(product.standard_price);
-                const marginCurrency = this.env.utils.formatCurrency(margin);
-                const marginPercent = priceWithoutTax
-                    ? Math.round((margin / priceWithoutTax) * 10000) / 100
-                    : 0;
-                const orderPriceWithoutTaxCurrency = this.env.utils.formatCurrency(orderPriceWithoutTax);
-                const orderCostCurrency = this.env.utils.formatCurrency(orderCost);
-                const orderMarginCurrency = this.env.utils.formatCurrency(orderMargin);
-                const orderMarginPercent = orderPriceWithoutTax
-                    ? Math.round((orderMargin / orderPriceWithoutTax) * 10000) / 100
-                    : 0;
-
-                return {
-                    costCurrency,
-                    marginCurrency,
-                    marginPercent,
-                    orderPriceWithoutTaxCurrency,
-                    orderCostCurrency,
-                    orderMarginCurrency,
-                    orderMarginPercent,
-                    ...product,
-                };
-            });
-
-            return processedProductInfo;
-        } catch (error) {
-            console.error('RPC Error:', error);
-            throw error;
-        }
+        const costCurrency = this.env.utils.formatCurrency(product.standard_price);
+        const marginCurrency = this.env.utils.formatCurrency(margin);
+        const marginPercent = priceWithoutTax
+            ? Math.round((margin / priceWithoutTax) * 10000) / 100
+            : 0;
+        const orderPriceWithoutTaxCurrency = this.env.utils.formatCurrency(orderPriceWithoutTax);
+        const orderCostCurrency = this.env.utils.formatCurrency(orderCost);
+        const orderMarginCurrency = this.env.utils.formatCurrency(orderMargin);
+        const orderMarginPercent = orderPriceWithoutTax
+            ? Math.round((orderMargin / orderPriceWithoutTax) * 10000) / 100
+            : 0;
+        return {
+            costCurrency,
+            marginCurrency,
+            marginPercent,
+            orderPriceWithoutTaxCurrency,
+            orderCostCurrency,
+            orderMarginCurrency,
+            orderMarginPercent,
+            productInfo,
+        };
     }
 });

@@ -11,4 +11,4 @@ from . import data_reference
 from . import res_config_setting
 from . import dashboard
 from . import favourite_patient
-# from . import product
+from . import product
